@@ -7,6 +7,31 @@ import { ReactComponent as CatchuWhite } from '../../../assets/image/catchu/whit
 import { ReactComponent as CatchuYellow } from '../../../assets/image/catchu/yellow.svg';
 import { ReactComponent as CatchuYellowGreen } from '../../../assets/image/catchu/yellowgreen.svg';
 import { ReactComponent as IcGameOver } from '../../../assets/image/game-over.svg';
+import CatchuBlueSrc from '../../../assets/image/catchu/blue.svg';
+import CatchuGreenSrc from '../../../assets/image/catchu/green.svg';
+import CatchuOrangeSrc from '../../../assets/image/catchu/orange.svg';
+import CatchuPurpleSrc from '../../../assets/image/catchu/purple.svg';
+import CatchuSkyblueSrc from '../../../assets/image/catchu/skyblue.svg';
+import CatchuWhiteSrc from '../../../assets/image/catchu/white.svg';
+import CatchuYellowSrc from '../../../assets/image/catchu/yellow.svg';
+import CatchuYellowGreenSrc from '../../../assets/image/catchu/yellowgreen.svg';
+
+const catchuBlueImage = new Image();
+catchuBlueImage.src = CatchuBlueSrc;
+const catchuGreenImage = new Image();
+catchuGreenImage.src = CatchuGreenSrc;
+const catchuOrangeImage = new Image();
+catchuOrangeImage.src = CatchuOrangeSrc;
+const catchuPurpleImage = new Image();
+catchuPurpleImage.src = CatchuPurpleSrc;
+const catchuSkyblueImage = new Image();
+catchuSkyblueImage.src = CatchuSkyblueSrc;
+const catchuWhiteImage = new Image();
+catchuWhiteImage.src = CatchuWhiteSrc;
+const catchuYellowImage = new Image();
+catchuYellowImage.src = CatchuYellowSrc;
+const catchuYellowGreenImage = new Image();
+catchuYellowGreenImage.src = CatchuYellowGreenSrc;
 
 export {
   CatchuBlue,
@@ -18,4 +43,12 @@ export {
   CatchuYellow,
   CatchuYellowGreen,
   IcGameOver,
+  catchuBlueImage,
+  catchuGreenImage,
+  catchuOrangeImage,
+  catchuPurpleImage,
+  catchuSkyblueImage,
+  catchuWhiteImage,
+  catchuYellowImage,
+  catchuYellowGreenImage,
 };

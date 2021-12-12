@@ -1,6 +1,6 @@
 interface Marker {
-  shape: ?number[][];
-  catchu: ?ReactElement;
+  shape: number[][];
+  catchu: ReactElement;
 }
 
 interface ActiveMarker extends Marker {
