@@ -8,50 +8,55 @@ import {
   CatchuYellowGreen,
 } from '../../components/common/Icons';
 
+export const BLOCK_COUNT = 7;
+
 export const BLOCKS: {
   [key: string]: Marker;
 } = {
-  I: { shape: [[1, 1, 1, 1]], catchu: CatchuBlue },
+  I: {
+    shape: [[1, 1, 1, 1]],
+    catchu: () => <CatchuBlue />,
+  },
   L: {
     shape: [
       [0, 0, 1],
       [1, 1, 1],
     ],
-    catchu: CatchuGreen,
+    catchu: () => <CatchuGreen />,
   },
   J: {
     shape: [
       [1, 0, 0],
       [1, 1, 1],
     ],
-    catchu: CatchuOrange,
+    catchu: () => <CatchuOrange />,
   },
   Z: {
     shape: [
       [1, 1, 0],
       [0, 1, 1],
     ],
-    catchu: CatchuPurple,
+    catchu: () => <CatchuPurple />,
   },
   S: {
     shape: [
       [0, 1, 1],
       [1, 1, 0],
     ],
-    catchu: CatchuSkyblue,
+    catchu: () => <CatchuSkyblue />,
   },
   O: {
     shape: [
       [1, 1],
       [1, 1],
     ],
-    catchu: CatchuYellow,
+    catchu: () => <CatchuYellow />,
   },
   T: {
     shape: [
       [0, 1, 0],
       [1, 1, 1],
     ],
-    catchu: CatchuYellowGreen,
+    catchu: () => <CatchuYellowGreen />,
   },
 };

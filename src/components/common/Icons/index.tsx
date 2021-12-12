@@ -1,12 +1,12 @@
-import { ReactComponent as CatchuBlue } from 'Color=blue, phase=1, size=180.svg';
-import { ReactComponent as CatchuGreen } from 'Color=green, phase=1, size=180.svg';
-import { ReactComponent as CatchuOrange } from 'Color=orange, phase=1, size=180.svg';
-import { ReactComponent as CatchuPurple } from 'Color=purple, phase=1, size=180.svg';
-import { ReactComponent as CatchuSkyblue } from 'Color=skyblue, phase=1, size=180.svg';
-import { ReactComponent as CatchuWhite } from 'Color=white, phase=1, size=180.svg';
-import { ReactComponent as CatchuYellow } from 'Color=yellow, phase=1, size=180.svg';
-import { ReactComponent as CatchuYellowGreen } from 'Color=yellowgreen, phase=1, size=180.svg';
-import { ReactComponent as IcGameOver } from 'img_crying_catchu.svg';
+import { ReactComponent as CatchuBlue } from '../../../assets/image/catchu/blue.svg';
+import { ReactComponent as CatchuGreen } from '../../../assets/image/catchu/green.svg';
+import { ReactComponent as CatchuOrange } from '../../../assets/image/catchu/orange.svg';
+import { ReactComponent as CatchuPurple } from '../../../assets/image/catchu/purple.svg';
+import { ReactComponent as CatchuSkyblue } from '../../../assets/image/catchu/skyblue.svg';
+import { ReactComponent as CatchuWhite } from '../../../assets/image/catchu/white.svg';
+import { ReactComponent as CatchuYellow } from '../../../assets/image/catchu/yellow.svg';
+import { ReactComponent as CatchuYellowGreen } from '../../../assets/image/catchu/yellowgreen.svg';
+import { ReactComponent as IcGameOver } from '../../../assets/image/game-over.svg';
 
 export {
   CatchuBlue,

@@ -8,5 +8,5 @@ export const isOutOfCanvas = ({ x, y }: { x: number; y: number }) => {
   return true;
 };
 
-export const isCrash = (x: number, y: number, table: string[][]) =>
+export const isCrashWithTable = (x: number, y: number, table: string[][]) =>
   table[y][x] !== '';
