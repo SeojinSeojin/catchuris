@@ -30,7 +30,7 @@ function GameTable({
       shape: BLOCKS[newCatchu].shape,
       catchu: BLOCKS[newCatchu].catchu,
       positionX: x ?? TABLE.WIDTH / 2,
-      positionY: y ?? -4,
+      positionY: y ?? -2,
       key: newCatchu,
     };
   };
@@ -111,6 +111,16 @@ function GameTable({
           position[1] - 1,
         ]);
         if (isNotMoveable(initPositions, backgrounds)) {
+          setBackgrounds((prev) => {
+            const temp = [...prev];
+            activeCatchu.current!.shape.forEach((position) => {
+              if (!temp[position[1] + activeCatchu.current!.positionY]) return;
+              temp[position[1] + activeCatchu.current!.positionY][
+                position[0] + activeCatchu.current!.positionX
+              ] = activeCatchu.current!.key;
+            });
+            return temp;
+          });
           finishGame();
           activeCatchu.current = null;
         }
@@ -190,7 +200,7 @@ function GameTable({
       pressedKey && handleMove[pressedKey]();
     }, 80);
 
-    const moveDown = setInterval(() => handleMove.down(), 300);
+    const moveDown = setInterval(() => handleMove.down(), 500);
 
     return () => {
       clearInterval(movePosition);
