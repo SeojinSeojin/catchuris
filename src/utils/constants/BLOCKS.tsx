@@ -21,6 +21,7 @@ export const BLOCKS: {
   [key: string]: Marker;
 } = {
   I: {
+    key: 'I',
     shape: [
       [1, 0],
       [1, 1],
@@ -30,6 +31,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuBlue />, svg: catchuBlueImage },
   },
   L: {
+    key: 'L',
     shape: [
       [0, 2],
       [1, 0],
@@ -39,6 +41,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuGreen />, svg: catchuGreenImage },
   },
   J: {
+    key: 'J',
     shape: [
       [0, 0],
       [1, 0],
@@ -48,6 +51,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuOrange />, svg: catchuOrangeImage },
   },
   Z: {
+    key: 'Z',
     shape: [
       [0, 0],
       [0, 1],
@@ -57,6 +61,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuPurple />, svg: catchuPurpleImage },
   },
   S: {
+    key: 'S',
     shape: [
       [0, 1],
       [0, 2],
@@ -66,6 +71,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuSkyblue />, svg: catchuSkyblueImage },
   },
   O: {
+    key: 'O',
     shape: [
       [0, 0],
       [0, 1],
@@ -75,6 +81,7 @@ export const BLOCKS: {
     catchu: { component: () => <CatchuYellow />, svg: catchuYellowImage },
   },
   T: {
+    key: 'T',
     shape: [
       [0, 1],
       [1, 0],
