@@ -12,11 +12,8 @@ function App() {
 
   return (
     <Wrapper>
-      {isGameOver ? (
-        <GameOver score={score} />
-      ) : (
-        <GameTable addScore={addScore} finishGame={finishGame} />
-      )}
+      {isGameOver && <GameOver score={score} />}
+      <GameTable addScore={addScore} finishGame={finishGame} />
     </Wrapper>
   );
 }
@@ -25,6 +22,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 export default App;
