@@ -3,6 +3,7 @@ import { BLOCKS, BLOCK_COUNT } from '../../utils/constants/BLOCKS';
 import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
 import { isNotMoveable } from '../../utils/moveValidator';
+import SavedCatchu from '../SavedCatchu';
 import { Canvas, Cell, Row } from './style';
 
 function GameTable({
@@ -19,15 +20,17 @@ function GameTable({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestAnimationRef = useRef<number>(0);
   const activeCatchu = useRef<ActiveMarker | null>();
+  const savedCatchu = useRef<Marker | null>(null);
+  const isCatchuSavable = useRef<boolean>(true);
 
-  const initializeCatchu = () => {
+  const initializeCatchu = (x?: number, y?: number) => {
     const newCatchu =
       Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
     activeCatchu.current = {
       shape: BLOCKS[newCatchu].shape,
       catchu: BLOCKS[newCatchu].catchu,
-      positionX: TABLE.WIDTH / 2,
-      positionY: 0,
+      positionX: x ?? TABLE.WIDTH / 2,
+      positionY: y ?? -4,
       key: newCatchu,
     };
   };
@@ -102,6 +105,7 @@ function GameTable({
         });
         updateBackground();
         initializeCatchu();
+        isCatchuSavable.current = true;
         const initPositions = activeCatchu.current.shape.map((position) => [
           position[0] + TABLE.WIDTH / 2,
           position[1] - 1,
@@ -141,12 +145,43 @@ function GameTable({
     handlePosition({ rotate: false, dx: 0, dy: dy });
   };
 
+  const saveCatchu = () => {
+    if (!isCatchuSavable.current) return;
+    if (!activeCatchu.current) return;
+    isCatchuSavable.current = false;
+    if (!savedCatchu.current) {
+      savedCatchu.current = {
+        shape: activeCatchu.current.shape,
+        catchu: activeCatchu.current.catchu,
+        key: activeCatchu.current.key,
+      };
+      initializeCatchu(
+        activeCatchu.current.positionX,
+        activeCatchu.current.positionY
+      );
+    } else {
+      const tempSavedCatchu = { ...savedCatchu.current };
+      savedCatchu.current = {
+        shape: activeCatchu.current.shape,
+        catchu: activeCatchu.current.catchu,
+        key: activeCatchu.current.key,
+      };
+      activeCatchu.current = {
+        ...activeCatchu.current,
+        shape: tempSavedCatchu.shape,
+        catchu: tempSavedCatchu.catchu,
+        key: tempSavedCatchu.key,
+      };
+    }
+  };
+
   const handleMove: { [key: string]: () => void } = {
     down: () => handlePosition({ rotate: false, dx: 0, dy: 1 }),
     up: () => handlePosition({ rotate: true, dx: 0, dy: 0 }),
     right: () => handlePosition({ rotate: false, dx: 1, dy: 0 }),
     left: () => handlePosition({ rotate: false, dx: -1, dy: 0 }),
     enter: () => moveGround(),
+    space: () => saveCatchu(),
   };
 
   useEffect(() => {
@@ -155,7 +190,7 @@ function GameTable({
       pressedKey && handleMove[pressedKey]();
     }, 80);
 
-    const moveDown = setInterval(() => handleMove.down(), 500);
+    const moveDown = setInterval(() => handleMove.down(), 300);
 
     return () => {
       clearInterval(movePosition);
@@ -188,6 +223,9 @@ function GameTable({
           return setPressedKey('right');
         case 'Enter':
           return setPressedKey('enter');
+        case ' ':
+        case 'Spacebar':
+          return setPressedKey('space');
       }
     };
     const cancelKeyPress = () => setPressedKey(null);
@@ -214,6 +252,7 @@ function GameTable({
           </Row>
         ))}
       </div>
+      <SavedCatchu catchu={savedCatchu.current} />
     </div>
   );
 }
