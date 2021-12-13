@@ -3,10 +3,15 @@ import { BLOCKS, BLOCK_COUNT } from '../../utils/constants/BLOCKS';
 import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
 import { isCrashWithTable, isInCanvas } from '../../utils/moveValidator';
-import GameOver from '../GameOver';
 import { Canvas, Cell, Row } from './style';
 
-function GameTable() {
+function GameTable({
+  addScore,
+  finishGame,
+}: {
+  addScore: (score: number) => void;
+  finishGame: () => void;
+}) {
   const initialTarget =
     Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
   const [backgrounds, setBackgrounds] = useState<string[][]>(
@@ -15,7 +20,6 @@ function GameTable() {
   const [pressedKey, setPressedKey] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestAnimationRef = useRef<number>(0);
-  const [isGameOver, setIsGameOver] = useState(false);
 
   const currentTarget = useRef<ActiveMarker | null>({
     shape: BLOCKS[initialTarget].shape,
@@ -25,24 +29,19 @@ function GameTable() {
     key: initialTarget,
   });
 
-  useEffect(() => {
-    setBackgrounds((prev) => {
-      const temp = [...prev];
-      temp[0][0] = 'I';
-      return temp;
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isGameOver) {
-      setBackgrounds(
-        new Array(TABLE.HEIGHT)
-          .fill('')
-          .map(() => new Array(TABLE.WIDTH).fill(''))
-      );
-      currentTarget.current = null;
-    }
-  }, [isGameOver]);
+  const updateBackground = () => {
+    const newBackground = backgrounds.filter(
+      (row) => row.filter((cell) => cell === '').length !== 0
+    );
+    const deletedRows = TABLE.HEIGHT - newBackground.length;
+    addScore(deletedRows * deletedRows * 100);
+    setBackgrounds(
+      new Array(deletedRows)
+        .fill('')
+        .map(() => new Array(TABLE.WIDTH).fill(''))
+        .concat(newBackground)
+    );
+  };
 
   const render = () => {
     const canvas = canvasRef.current;
@@ -122,6 +121,7 @@ function GameTable() {
           });
           return temp;
         });
+        updateBackground();
         const newTarget =
           Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
         currentTarget.current = {
@@ -146,8 +146,10 @@ function GameTable() {
                 backgrounds
               )
             ).length !== 0
-        )
-          setIsGameOver(true);
+        ) {
+          finishGame();
+          currentTarget.current = null;
+        }
       } else return;
     } else {
       if (!rotate) {
@@ -208,22 +210,18 @@ function GameTable() {
 
   return (
     <div>
-      {isGameOver ? (
-        <GameOver />
-      ) : (
-        <div>
-          <Canvas ref={canvasRef} />
-          {backgrounds.map((row, ridx) => (
-            <Row key={ridx}>
-              {row.map((cell, cidx) => (
-                <Cell key={cidx}>
-                  {cell !== '' && BLOCKS[cell].catchu.component()}
-                </Cell>
-              ))}
-            </Row>
-          ))}
-        </div>
-      )}
+      <div>
+        <Canvas ref={canvasRef} />
+        {backgrounds.map((row, ridx) => (
+          <Row key={ridx}>
+            {row.map((cell, cidx) => (
+              <Cell key={cidx}>
+                {cell !== '' && BLOCKS[cell].catchu.component()}
+              </Cell>
+            ))}
+          </Row>
+        ))}
+      </div>
     </div>
   );
 }

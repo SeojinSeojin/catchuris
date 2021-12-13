@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import GameOver from './components/GameOver';
 import GameTable from './components/GameTable';
 
 function App() {
+  const [score, setScore] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  const addScore = (score: number) => setScore((prev) => prev + score);
+  const finishGame = () => setIsGameOver(true);
+
   return (
     <Wrapper>
-      <GameTable />
+      {isGameOver ? (
+        <GameOver score={score} />
+      ) : (
+        <GameTable addScore={addScore} finishGame={finishGame} />
+      )}
     </Wrapper>
   );
 }
