@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BLOCKS, BLOCK_COUNT } from '../../utils/constants/BLOCKS';
 import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
-import { isCrashWithTable, isInCanvas } from '../../utils/moveValidator';
+import { isNotMoveable } from '../../utils/moveValidator';
 import { Canvas, Cell, Row } from './style';
 
 function GameTable({
@@ -12,22 +12,25 @@ function GameTable({
   addScore: (score: number) => void;
   finishGame: () => void;
 }) {
-  const initialTarget =
-    Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
   const [backgrounds, setBackgrounds] = useState<string[][]>(
     new Array(TABLE.HEIGHT).fill('').map(() => new Array(TABLE.WIDTH).fill(''))
   );
   const [pressedKey, setPressedKey] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestAnimationRef = useRef<number>(0);
+  const activeCatchu = useRef<ActiveMarker | null>();
 
-  const currentTarget = useRef<ActiveMarker | null>({
-    shape: BLOCKS[initialTarget].shape,
-    catchu: BLOCKS[initialTarget].catchu,
-    positionX: TABLE.WIDTH / 2,
-    positionY: 0,
-    key: initialTarget,
-  });
+  const initializeCatchu = () => {
+    const newCatchu =
+      Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
+    activeCatchu.current = {
+      shape: BLOCKS[newCatchu].shape,
+      catchu: BLOCKS[newCatchu].catchu,
+      positionX: TABLE.WIDTH / 2,
+      positionY: 0,
+      key: newCatchu,
+    };
+  };
 
   const updateBackground = () => {
     const newBackground = backgrounds.filter(
@@ -46,17 +49,17 @@ function GameTable({
   const render = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (!currentTarget.current) return;
+    if (!activeCatchu.current) return;
     canvas.width = TABLE.WIDTH * TABLE.CELL.SIZE;
     canvas.height = TABLE.HEIGHT * TABLE.CELL.SIZE;
     const context = canvas.getContext('2d');
-    currentTarget.current.shape.forEach((position) => {
+    activeCatchu.current.shape.forEach((position) => {
       const x =
-        (position[0] + currentTarget.current!.positionX) * TABLE.CELL.SIZE;
+        (position[0] + activeCatchu.current!.positionX) * TABLE.CELL.SIZE;
       const y =
-        (position[1] + currentTarget.current!.positionY) * TABLE.CELL.SIZE;
+        (position[1] + activeCatchu.current!.positionY) * TABLE.CELL.SIZE;
       context?.drawImage(
-        currentTarget.current!.catchu.svg,
+        activeCatchu.current!.catchu.svg,
         x,
         y,
         TABLE.CELL.SIZE,
@@ -75,88 +78,45 @@ function GameTable({
     dx: number;
     dy: number;
   }) => {
-    if (!currentTarget.current) return;
-    const currentPositions = currentTarget.current.shape;
-    const currentX = currentTarget.current.positionX;
-    const currentY = currentTarget.current.positionY;
-    let nextPositions: number[][];
-    if (!rotate)
-      nextPositions = currentPositions.map((position) => [
-        position[0] + dx + currentX,
-        position[1] + dy + currentY,
-      ]);
-    else
-      nextPositions = rotate90(currentPositions).map((position) => [
-        position[0] + currentX,
-        position[1] + currentY,
-      ]);
+    if (!activeCatchu.current) return;
+    const currentPositions = activeCatchu.current.shape;
+    const currentX = activeCatchu.current.positionX;
+    const currentY = activeCatchu.current.positionY;
+    let nextPositions = (
+      rotate ? rotate90(currentPositions) : currentPositions
+    ).map((position) => [
+      position[0] + dx + currentX,
+      position[1] + dy + currentY,
+    ]);
     if (!currentPositions) return;
-    if (
-      nextPositions.filter(
-        (position) =>
-          !isInCanvas({
-            x: position[0],
-            y: position[1],
-          })
-      ).length +
-        nextPositions
-          .filter((position) =>
-            isInCanvas({
-              x: position[0],
-              y: position[1],
-            })
-          )
-          .filter((position) =>
-            isCrashWithTable(position[0], position[1], backgrounds)
-          ).length !==
-      0
-    ) {
+    if (isNotMoveable(nextPositions, backgrounds)) {
       if (dy) {
         setBackgrounds((prev) => {
           const temp = [...prev];
           currentPositions.forEach((position) => {
             if (!temp[position[1] + currentY]) return;
             temp[position[1] + currentY][position[0] + currentX] =
-              currentTarget.current!.key;
+              activeCatchu.current!.key;
           });
           return temp;
         });
         updateBackground();
-        const newTarget =
-          Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
-        currentTarget.current = {
-          shape: BLOCKS[newTarget].shape,
-          catchu: BLOCKS[newTarget].catchu,
-          positionX: TABLE.WIDTH / 2,
-          positionY: -1,
-          key: newTarget,
-        };
-        if (
-          currentPositions
-            .filter((position) =>
-              isInCanvas({
-                x: position[0] + TABLE.WIDTH / 2,
-                y: position[1] - 1,
-              })
-            )
-            .filter((position) =>
-              isCrashWithTable(
-                position[0] + TABLE.WIDTH / 2,
-                position[1] - 1,
-                backgrounds
-              )
-            ).length !== 0
-        ) {
+        initializeCatchu();
+        const initPositions = activeCatchu.current.shape.map((position) => [
+          position[0] + TABLE.WIDTH / 2,
+          position[1] - 1,
+        ]);
+        if (isNotMoveable(initPositions, backgrounds)) {
           finishGame();
-          currentTarget.current = null;
+          activeCatchu.current = null;
         }
       } else return;
     } else {
       if (!rotate) {
-        currentTarget.current.positionX += dx;
-        currentTarget.current.positionY += dy;
+        activeCatchu.current.positionX += dx;
+        activeCatchu.current.positionY += dy;
       } else {
-        currentTarget.current.shape = rotate90(currentTarget.current.shape);
+        activeCatchu.current.shape = rotate90(activeCatchu.current.shape);
       }
     }
   };
@@ -170,7 +130,7 @@ function GameTable({
 
   useEffect(() => {
     const movePosition = setInterval(() => {
-      if (!currentTarget.current) return;
+      if (!activeCatchu.current) return;
       pressedKey && handleMove[pressedKey]();
     }, 100);
 
@@ -183,28 +143,39 @@ function GameTable({
   });
 
   useEffect(() => {
+    initializeCatchu();
+    return () => {
+      activeCatchu.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
     requestAnimationRef.current = requestAnimationFrame(render);
-    window.addEventListener('keydown', (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Down':
         case 'ArrowDown':
           return setPressedKey('down');
-        case 'Up': // IE/Edge specific value
+        case 'Up':
         case 'ArrowUp':
           return setPressedKey('up');
-        case 'Left': // IE/Edge specific value
+        case 'Left':
         case 'ArrowLeft':
           return setPressedKey('left');
-        case 'Right': // IE/Edge specific value
+        case 'Right':
         case 'ArrowRight':
           return setPressedKey('right');
         case 'Enter':
           return setPressedKey('enter');
       }
-    });
-    window.addEventListener('keyup', () => setPressedKey(null));
+    };
+    const cancelKeyPress = () => setPressedKey(null);
+    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('keyup', cancelKeyPress);
     return () => {
       cancelAnimationFrame(requestAnimationRef.current);
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('keyup', cancelKeyPress);
     };
   });
 

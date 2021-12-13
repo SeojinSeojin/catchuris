@@ -9,3 +9,22 @@ export const isInCanvas = ({ x, y }: { x: number; y: number }) => {
 
 export const isCrashWithTable = (x: number, y: number, table: string[][]) =>
   table[y] ? table[y][x] !== '' : false;
+
+export const isNotMoveable = (positions: number[][], table: string[][]) =>
+  positions.filter(
+    (position) =>
+      !isInCanvas({
+        x: position[0],
+        y: position[1],
+      })
+  ).length +
+    positions
+      .filter((position) =>
+        isInCanvas({
+          x: position[0],
+          y: position[1],
+        })
+      )
+      .filter((position) => isCrashWithTable(position[0], position[1], table))
+      .length !==
+  0;
