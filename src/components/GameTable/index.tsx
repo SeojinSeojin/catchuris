@@ -22,6 +22,7 @@ function GameTable({
   const activeCatchu = useRef<ActiveMarker | null>();
   const savedCatchu = useRef<Marker | null>(null);
   const isCatchuSavable = useRef<boolean>(true);
+  const [calculating, setCalculating] = useState(false);
 
   const initializeCatchu = (x?: number, y?: number) => {
     const newCatchu =
@@ -91,6 +92,7 @@ function GameTable({
       position[0] + dx + currentX,
       position[1] + dy + currentY,
     ]);
+    setCalculating(true);
     if (!currentPositions) return;
     if (isNotMoveable(nextPositions, backgrounds)) {
       if (dy) {
@@ -124,7 +126,8 @@ function GameTable({
           finishGame();
           activeCatchu.current = null;
         }
-      } else return;
+        setCalculating(false);
+      } else return setCalculating(false);
     } else {
       if (!rotate) {
         activeCatchu.current.positionX += dx;
@@ -132,15 +135,17 @@ function GameTable({
       } else {
         activeCatchu.current.shape = rotate90(activeCatchu.current.shape);
       }
+      setCalculating(false);
     }
   };
 
   const moveGround = () => {
     if (!activeCatchu.current) return;
+    setCalculating(true);
     const currentX = activeCatchu.current.positionX;
     const currentY = activeCatchu.current.positionY;
     let flag = true;
-    let dy = currentY;
+    let dy = 0;
     while (flag && dy <= TABLE.HEIGHT - currentY) {
       const nextPositions = activeCatchu.current.shape.map((position) => [
         position[0] + currentX,
@@ -206,12 +211,13 @@ function GameTable({
   });
 
   useEffect(() => {
+    if (calculating) return;
     const moveDown = setInterval(() => handleMove.down(), 500);
 
     return () => {
       clearInterval(moveDown);
     };
-  }, []);
+  }, [calculating]);
 
   useEffect(() => {
     initializeCatchu();
