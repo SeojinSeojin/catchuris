@@ -200,13 +200,18 @@ function GameTable({
       pressedKey && handleMove[pressedKey]();
     }, 80);
 
+    return () => {
+      clearInterval(movePosition);
+    };
+  });
+
+  useEffect(() => {
     const moveDown = setInterval(() => handleMove.down(), 500);
 
     return () => {
-      clearInterval(movePosition);
       clearInterval(moveDown);
     };
-  }, [pressedKey]);
+  }, []);
 
   useEffect(() => {
     initializeCatchu();
