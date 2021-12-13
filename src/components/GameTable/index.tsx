@@ -130,19 +130,19 @@ function GameTable({
     const currentX = activeCatchu.current.positionX;
     const currentY = activeCatchu.current.positionY;
     let flag = true;
-    let dy = TABLE.HEIGHT - currentY;
-    while (flag && dy > 0) {
+    let dy = currentY;
+    while (flag && dy <= TABLE.HEIGHT - currentY) {
       const nextPositions = activeCatchu.current.shape.map((position) => [
         position[0] + currentX,
         position[1] + dy + currentY,
       ]);
-      if (isNotMoveable(nextPositions, backgrounds)) {
-        dy -= 1;
+      if (!isNotMoveable(nextPositions, backgrounds)) {
+        dy += 1;
       } else {
         flag = false;
       }
     }
-    handlePosition({ rotate: false, dx: 0, dy: dy });
+    handlePosition({ rotate: false, dx: 0, dy: dy - 1 });
   };
 
   const saveCatchu = () => {
