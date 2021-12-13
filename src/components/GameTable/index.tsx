@@ -121,26 +121,47 @@ function GameTable({
     }
   };
 
+  const moveGround = () => {
+    if (!activeCatchu.current) return;
+    const currentX = activeCatchu.current.positionX;
+    const currentY = activeCatchu.current.positionY;
+    let flag = true;
+    let dy = TABLE.HEIGHT - currentY;
+    while (flag && dy > 0) {
+      const nextPositions = activeCatchu.current.shape.map((position) => [
+        position[0] + currentX,
+        position[1] + dy + currentY,
+      ]);
+      if (isNotMoveable(nextPositions, backgrounds)) {
+        dy -= 1;
+      } else {
+        flag = false;
+      }
+    }
+    handlePosition({ rotate: false, dx: 0, dy: dy });
+  };
+
   const handleMove: { [key: string]: () => void } = {
     down: () => handlePosition({ rotate: false, dx: 0, dy: 1 }),
     up: () => handlePosition({ rotate: true, dx: 0, dy: 0 }),
     right: () => handlePosition({ rotate: false, dx: 1, dy: 0 }),
     left: () => handlePosition({ rotate: false, dx: -1, dy: 0 }),
+    enter: () => moveGround(),
   };
 
   useEffect(() => {
     const movePosition = setInterval(() => {
       if (!activeCatchu.current) return;
       pressedKey && handleMove[pressedKey]();
-    }, 100);
+    }, 80);
 
-    const moveDown = setInterval(() => handleMove.down(), 1000);
+    const moveDown = setInterval(() => handleMove.down(), 500);
 
     return () => {
       clearInterval(movePosition);
       clearInterval(moveDown);
     };
-  });
+  }, [pressedKey]);
 
   useEffect(() => {
     initializeCatchu();

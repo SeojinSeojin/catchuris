@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 999;
   animation: 0.5s linear fadeIn;
+  backdrop-filter: grayscale(30%);
 
   @keyframes fadeIn {
     from {
