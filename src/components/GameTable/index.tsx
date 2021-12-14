@@ -23,15 +23,15 @@ function GameTable({
   const savedCatchu = useRef<Marker | null>(null);
   const isCatchuSavable = useRef<boolean>(true);
   const [calculating, setCalculating] = useState(false);
+  const initialPosition = { positionX: TABLE.WIDTH / 2, positionY: -3 };
 
-  const initializeCatchu = (x?: number, y?: number) => {
+  const initializeCatchu = () => {
     const newCatchu =
       Object.keys(BLOCKS)[Math.floor(Math.random() * BLOCK_COUNT)];
     activeCatchu.current = {
       shape: BLOCKS[newCatchu].shape,
       catchu: BLOCKS[newCatchu].catchu,
-      positionX: x ?? TABLE.WIDTH / 2,
-      positionY: y ?? -2,
+      ...initialPosition,
       key: newCatchu,
     };
   };
@@ -48,6 +48,28 @@ function GameTable({
         .map(() => new Array(TABLE.WIDTH).fill(''))
         .concat(newBackground)
     );
+  };
+
+  const handleNewCatchu = () => {
+    if (!activeCatchu.current) return;
+    const initPositions = activeCatchu.current.shape.map((position) => [
+      position[0] + initialPosition.positionX,
+      position[1] + initialPosition.positionY,
+    ]);
+    if (isNotMoveable(initPositions, backgrounds)) {
+      setBackgrounds((prev) => {
+        const temp = [...prev];
+        activeCatchu.current!.shape.forEach((position) => {
+          if (!temp[position[1] + activeCatchu.current!.positionY]) return;
+          temp[position[1] + activeCatchu.current!.positionY][
+            position[0] + activeCatchu.current!.positionX
+          ] = activeCatchu.current!.key;
+        });
+        return temp;
+      });
+      finishGame();
+      activeCatchu.current = null;
+    }
   };
 
   const render = () => {
@@ -107,25 +129,8 @@ function GameTable({
         });
         updateBackground();
         initializeCatchu();
+        handleNewCatchu();
         isCatchuSavable.current = true;
-        const initPositions = activeCatchu.current.shape.map((position) => [
-          position[0] + TABLE.WIDTH / 2,
-          position[1] - 1,
-        ]);
-        if (isNotMoveable(initPositions, backgrounds)) {
-          setBackgrounds((prev) => {
-            const temp = [...prev];
-            activeCatchu.current!.shape.forEach((position) => {
-              if (!temp[position[1] + activeCatchu.current!.positionY]) return;
-              temp[position[1] + activeCatchu.current!.positionY][
-                position[0] + activeCatchu.current!.positionX
-              ] = activeCatchu.current!.key;
-            });
-            return temp;
-          });
-          finishGame();
-          activeCatchu.current = null;
-        }
         setCalculating(false);
       } else return setCalculating(false);
     } else {
@@ -165,28 +170,17 @@ function GameTable({
     if (!activeCatchu.current) return;
     isCatchuSavable.current = false;
     if (!savedCatchu.current) {
-      savedCatchu.current = {
-        shape: activeCatchu.current.shape,
-        catchu: activeCatchu.current.catchu,
-        key: activeCatchu.current.key,
-      };
-      initializeCatchu(
-        activeCatchu.current.positionX,
-        activeCatchu.current.positionY
-      );
+      savedCatchu.current = { ...activeCatchu.current };
+      initializeCatchu();
+      handleNewCatchu();
     } else {
       const tempSavedCatchu = { ...savedCatchu.current };
-      savedCatchu.current = {
-        shape: activeCatchu.current.shape,
-        catchu: activeCatchu.current.catchu,
-        key: activeCatchu.current.key,
-      };
+      savedCatchu.current = { ...activeCatchu.current };
       activeCatchu.current = {
-        ...activeCatchu.current,
-        shape: tempSavedCatchu.shape,
-        catchu: tempSavedCatchu.catchu,
-        key: tempSavedCatchu.key,
+        ...tempSavedCatchu,
+        ...initialPosition,
       };
+      handleNewCatchu();
     }
   };
 
