@@ -6,9 +6,9 @@ export const Canvas = styled.canvas`
   top: 0;
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<{ isBigScreen: boolean }>`
   display: grid;
-  width: ${TABLE.WIDTH * TABLE.CELL.SIZE}px;
+  width: ${({ isBigScreen }) => TABLE.WIDTH * TABLE.CELL.SIZE(isBigScreen)}px;
   grid-template-columns: repeat(${TABLE.WIDTH}, 1fr);
   &:first-child {
     border-top: 1px solid #cccccc;
@@ -18,9 +18,9 @@ export const Row = styled.div`
   }
 `;
 
-export const Cell = styled.div`
-  width: ${TABLE.CELL.SIZE}px;
-  height: ${TABLE.CELL.SIZE}px;
+export const Cell = styled.div<{ isBigScreen: boolean }>`
+  width: ${({ isBigScreen }) => TABLE.CELL.SIZE(isBigScreen)}px;
+  height: ${({ isBigScreen }) => TABLE.CELL.SIZE(isBigScreen)}px;
   border-right: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
   box-sizing: border-box;
@@ -29,4 +29,28 @@ export const Cell = styled.div`
 export const BoardWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  max-width: 600px;
+  z-index: 10;
+  box-sizing: border-box;
+  background-color: #2f2f2f;
+  & svg {
+    align-self: center;
+    justify-self: center;
+    width: 50%;
+    padding: 10px;
+  }
+`;
+
+export const CanvasWrapper = styled.div`
+  border-left: 1.3px solid white;
+  border-right: 1.3px solid white;
 `;

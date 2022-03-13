@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 999;
   animation: 0.5s linear fadeIn;
   backdrop-filter: grayscale(30%);

@@ -1,11 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { BLOCKS, BLOCK_COUNT } from '../../utils/constants/BLOCKS';
 import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
 import { isNotMoveable } from '../../utils/moveValidator';
+import {
+  IcArrowLeft,
+  IcArrowRight,
+  IcDown,
+  IcRotate,
+  IcSave,
+} from '../common/Icons';
 import SavedCatchu from '../SavedCatchu';
 import ScoreBoard from '../ScoreBoard';
-import { Canvas, Cell, Row, BoardWrapper } from './style';
+import {
+  Canvas,
+  Cell,
+  Row,
+  BoardWrapper,
+  ButtonWrapper,
+  CanvasWrapper,
+} from './style';
 
 function GameTable({
   addScore,
@@ -16,6 +31,7 @@ function GameTable({
   finishGame: () => void;
   score: number;
 }) {
+  const isBigScreen = useMediaQuery({ query: '(min-width: 500px)' });
   const [backgrounds, setBackgrounds] = useState<string[][]>(
     new Array(TABLE.HEIGHT).fill('').map(() => new Array(TABLE.WIDTH).fill(''))
   );
@@ -79,20 +95,22 @@ function GameTable({
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (!activeCatchu.current) return;
-    canvas.width = TABLE.WIDTH * TABLE.CELL.SIZE;
-    canvas.height = TABLE.HEIGHT * TABLE.CELL.SIZE;
+    canvas.width = TABLE.WIDTH * TABLE.CELL.SIZE(isBigScreen);
+    canvas.height = TABLE.HEIGHT * TABLE.CELL.SIZE(isBigScreen);
     const context = canvas.getContext('2d');
     activeCatchu.current.shape.forEach((position) => {
       const x =
-        (position[0] + activeCatchu.current!.positionX) * TABLE.CELL.SIZE;
+        (position[0] + activeCatchu.current!.positionX) *
+        TABLE.CELL.SIZE(isBigScreen);
       const y =
-        (position[1] + activeCatchu.current!.positionY) * TABLE.CELL.SIZE;
+        (position[1] + activeCatchu.current!.positionY) *
+        TABLE.CELL.SIZE(isBigScreen);
       context?.drawImage(
         activeCatchu.current!.catchu.svg,
         x,
         y,
-        TABLE.CELL.SIZE,
-        TABLE.CELL.SIZE
+        TABLE.CELL.SIZE(isBigScreen),
+        TABLE.CELL.SIZE(isBigScreen)
       );
     });
     requestAnimationRef.current = requestAnimationFrame(render);
@@ -258,22 +276,27 @@ function GameTable({
 
   return (
     <div>
-      <div>
+      <CanvasWrapper>
         <Canvas ref={canvasRef} />
         {backgrounds.map((row, ridx) => (
-          <Row key={ridx}>
+          <Row key={ridx} isBigScreen={isBigScreen}>
             {row.map((cell, cidx) => (
-              <Cell key={cidx}>
+              <Cell key={cidx} isBigScreen={isBigScreen}>
                 {cell !== '' && BLOCKS[cell].catchu.component()}
               </Cell>
             ))}
           </Row>
         ))}
-      </div>
+      </CanvasWrapper>
       <BoardWrapper>
         <SavedCatchu catchu={savedCatchu.current} />
         <ScoreBoard score={score} />
       </BoardWrapper>
+      {!isBigScreen && (
+        <ButtonWrapper>
+          <IcArrowLeft /> <IcArrowRight /> <IcDown /> <IcRotate /> <IcSave />
+        </ButtonWrapper>
+      )}
     </div>
   );
 }

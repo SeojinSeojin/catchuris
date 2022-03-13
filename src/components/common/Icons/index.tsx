@@ -10,6 +10,11 @@ import { ReactComponent as IcGameOver } from '../../../assets/image/game-over.sv
 import { ReactComponent as IcPlay } from '../../../assets/icons/ic-play.svg';
 import { ReactComponent as IcRefresh } from '../../../assets/icons/ic-refresh.svg';
 import { ReactComponent as IcStop } from '../../../assets/icons/ic-stop.svg';
+import { ReactComponent as IcArrowLeft } from '../../../assets/icons/ic-arrow-left.svg';
+import { ReactComponent as IcArrowRight } from '../../../assets/icons/ic-arrow-right.svg';
+import { ReactComponent as IcDown } from '../../../assets/icons/ic-down.svg';
+import { ReactComponent as IcRotate } from '../../../assets/icons/ic-rotate.svg';
+import { ReactComponent as IcSave } from '../../../assets/icons/ic-save.svg';
 import CatchuBlueSrc from '../../../assets/image/catchu/blue.svg';
 import CatchuGreenSrc from '../../../assets/image/catchu/green.svg';
 import CatchuOrangeSrc from '../../../assets/image/catchu/orange.svg';
@@ -49,6 +54,11 @@ export {
   IcPlay,
   IcRefresh,
   IcStop,
+  IcArrowLeft,
+  IcArrowRight,
+  IcDown,
+  IcRotate,
+  IcSave,
   catchuBlueImage,
   catchuGreenImage,
   catchuOrangeImage,
