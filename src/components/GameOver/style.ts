@@ -41,7 +41,9 @@ export const RefreshButton = styled.div`
   background-color: #ff4882;
   border-radius: 24px;
   display: grid;
-  grid-template-columns: 20px auto;
+  align-items: center;
+  gap: 8px;
+  grid-template-columns: 24px auto;
   padding: 10px 20px;
   font-size: 14px;
   cursor: pointer;
