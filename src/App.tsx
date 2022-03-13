@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import GameInit from './components/GameInit';
 import GameOver from './components/GameOver';
 import GameTable from './components/GameTable';
 
 function App() {
   const [score, setScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameStart, setIsGameStart] = useState(false);
 
   const addScore = (score: number) => setScore((prev) => prev + score);
   const finishGame = () => setIsGameOver(true);
@@ -13,7 +15,11 @@ function App() {
   return (
     <Wrapper>
       {isGameOver && <GameOver score={score} />}
-      <GameTable addScore={addScore} score={score} finishGame={finishGame} />
+      {isGameStart ? (
+        <GameTable addScore={addScore} score={score} finishGame={finishGame} />
+      ) : (
+        <GameInit startGame={() => setIsGameStart(true)} />
+      )}
     </Wrapper>
   );
 }

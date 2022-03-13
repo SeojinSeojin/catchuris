@@ -16,6 +16,8 @@ import { ReactComponent as IcArrowDown } from '../../../assets/icons/ic-arrow-do
 import { ReactComponent as IcDown } from '../../../assets/icons/ic-down.svg';
 import { ReactComponent as IcRotate } from '../../../assets/icons/ic-rotate.svg';
 import { ReactComponent as IcSave } from '../../../assets/icons/ic-save.svg';
+import { ReactComponent as ImageCatchues } from '../../../assets/image/image-catchues.svg';
+import { ReactComponent as ImageLogo } from '../../../assets/image/image-logo.svg';
 import CatchuBlueSrc from '../../../assets/image/catchu/blue.svg';
 import CatchuGreenSrc from '../../../assets/image/catchu/green.svg';
 import CatchuOrangeSrc from '../../../assets/image/catchu/orange.svg';
@@ -61,6 +63,8 @@ export {
   IcDown,
   IcRotate,
   IcSave,
+  ImageCatchues,
+  ImageLogo,
   catchuBlueImage,
   catchuGreenImage,
   catchuOrangeImage,
