@@ -4,14 +4,17 @@ import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
 import { isNotMoveable } from '../../utils/moveValidator';
 import SavedCatchu from '../SavedCatchu';
-import { Canvas, Cell, Row } from './style';
+import ScoreBoard from '../ScoreBoard';
+import { Canvas, Cell, Row, BoardWrapper } from './style';
 
 function GameTable({
   addScore,
   finishGame,
+  score,
 }: {
   addScore: (score: number) => void;
   finishGame: () => void;
+  score: number;
 }) {
   const [backgrounds, setBackgrounds] = useState<string[][]>(
     new Array(TABLE.HEIGHT).fill('').map(() => new Array(TABLE.WIDTH).fill(''))
@@ -267,7 +270,10 @@ function GameTable({
           </Row>
         ))}
       </div>
-      <SavedCatchu catchu={savedCatchu.current} />
+      <BoardWrapper>
+        <SavedCatchu catchu={savedCatchu.current} />
+        <ScoreBoard score={score} />
+      </BoardWrapper>
     </div>
   );
 }

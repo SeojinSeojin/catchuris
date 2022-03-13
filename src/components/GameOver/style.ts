@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { TABLE } from '../../utils/constants/TABLE';
 
 export const Wrapper = styled.div`
-  width: ${TABLE.CELL.SIZE * TABLE.WIDTH}px;
-  height: ${TABLE.CELL.SIZE * TABLE.HEIGHT}px;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: 0;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 999;
   animation: 0.5s linear fadeIn;
@@ -33,5 +33,17 @@ export const Wrapper = styled.div`
 
   & svg {
     width: 100%;
+    max-width: 400px;
   }
+`;
+
+export const RefreshButton = styled.div`
+  background-color: #ff4882;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: 20px auto;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 14px;
 `;

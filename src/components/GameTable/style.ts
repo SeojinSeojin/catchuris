@@ -25,3 +25,8 @@ export const Cell = styled.div`
   border-bottom: 1px solid #cccccc;
   box-sizing: border-box;
 `;
+
+export const BoardWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;

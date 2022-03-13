@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import GameOver from './components/GameOver';
 import GameTable from './components/GameTable';
-import ScoreBoard from './components/ScoreBoard';
 
 function App() {
   const [score, setScore] = useState(0);
@@ -14,8 +13,7 @@ function App() {
   return (
     <Wrapper>
       {isGameOver && <GameOver score={score} />}
-      <GameTable addScore={addScore} finishGame={finishGame} />
-      <ScoreBoard score={score} />
+      <GameTable addScore={addScore} score={score} finishGame={finishGame} />
     </Wrapper>
   );
 }

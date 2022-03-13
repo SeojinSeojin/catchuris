@@ -7,6 +7,9 @@ import { ReactComponent as CatchuWhite } from '../../../assets/image/catchu/whit
 import { ReactComponent as CatchuYellow } from '../../../assets/image/catchu/yellow.svg';
 import { ReactComponent as CatchuYellowGreen } from '../../../assets/image/catchu/yellowgreen.svg';
 import { ReactComponent as IcGameOver } from '../../../assets/image/game-over.svg';
+import { ReactComponent as IcPlay } from '../../../assets/icons/ic-play.svg';
+import { ReactComponent as IcRefresh } from '../../../assets/icons/ic-refresh.svg';
+import { ReactComponent as IcStop } from '../../../assets/icons/ic-stop.svg';
 import CatchuBlueSrc from '../../../assets/image/catchu/blue.svg';
 import CatchuGreenSrc from '../../../assets/image/catchu/green.svg';
 import CatchuOrangeSrc from '../../../assets/image/catchu/orange.svg';
@@ -43,6 +46,9 @@ export {
   CatchuYellow,
   CatchuYellowGreen,
   IcGameOver,
+  IcPlay,
+  IcRefresh,
+  IcStop,
   catchuBlueImage,
   catchuGreenImage,
   catchuOrangeImage,
