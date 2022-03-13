@@ -33,7 +33,7 @@ export const BoardWrapper = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   position: absolute;
   bottom: 0;
   left: 0;

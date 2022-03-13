@@ -12,6 +12,7 @@ import { ReactComponent as IcRefresh } from '../../../assets/icons/ic-refresh.sv
 import { ReactComponent as IcStop } from '../../../assets/icons/ic-stop.svg';
 import { ReactComponent as IcArrowLeft } from '../../../assets/icons/ic-arrow-left.svg';
 import { ReactComponent as IcArrowRight } from '../../../assets/icons/ic-arrow-right.svg';
+import { ReactComponent as IcArrowDown } from '../../../assets/icons/ic-arrow-down.svg';
 import { ReactComponent as IcDown } from '../../../assets/icons/ic-down.svg';
 import { ReactComponent as IcRotate } from '../../../assets/icons/ic-rotate.svg';
 import { ReactComponent as IcSave } from '../../../assets/icons/ic-save.svg';
@@ -56,6 +57,7 @@ export {
   IcStop,
   IcArrowLeft,
   IcArrowRight,
+  IcArrowDown,
   IcDown,
   IcRotate,
   IcSave,

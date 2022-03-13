@@ -5,6 +5,7 @@ import { TABLE } from '../../utils/constants/TABLE';
 import { rotate90 } from '../../utils/moveHandler';
 import { isNotMoveable } from '../../utils/moveValidator';
 import {
+  IcArrowDown,
   IcArrowLeft,
   IcArrowRight,
   IcDown,
@@ -294,7 +295,30 @@ function GameTable({
       </BoardWrapper>
       {!isBigScreen && (
         <ButtonWrapper>
-          <IcArrowLeft /> <IcArrowRight /> <IcDown /> <IcRotate /> <IcSave />
+          <IcArrowLeft
+            onTouchStart={() => setPressedKey('left')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
+          <IcArrowDown
+            onTouchStart={() => setPressedKey('down')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
+          <IcArrowRight
+            onTouchStart={() => setPressedKey('right')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
+          <IcDown
+            onTouchStart={() => setPressedKey('enter')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
+          <IcRotate
+            onTouchStart={() => setPressedKey('up')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
+          <IcSave
+            onTouchStart={() => setPressedKey('space')}
+            onTouchEnd={() => setPressedKey(null)}
+          />
         </ButtonWrapper>
       )}
     </div>
