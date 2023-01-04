@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  gap: 8px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -33,19 +34,65 @@ export const Wrapper = styled.div`
 
   & svg {
     width: 100%;
-    max-width: 400px;
+    max-width: 240px;
   }
 `;
 
-export const RefreshButton = styled.div`
+export const RankingWrapper = styled.div`
+  border-radius: 8px;
+  width: 300px;
+  max-height: 280px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  padding-bottom: 12px;
+  background-color: #ff4882;
+`;
+
+export const RankingTitle = styled.div`
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid white;
+`;
+
+export const RankingItem = styled.div`
+  display: grid;
+  grid-template-columns: 32px 160px auto;
+  & div:first-child {
+    text-align: center;
+  }
+  & > div:nth-child(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
+export const SaveButton = styled.button`
+  outline: none;
+  border: none;
+  color: #1c1c1c;
+  background-color: white;
+  border-radius: 24px;
+  padding: 8px 16px;
+  line-height: 30px;
+  font-size: 16px;
+`;
+
+export const RefreshButton = styled.button`
+  outline: none;
+  border: none;
   background-color: #ff4882;
   border-radius: 24px;
   display: grid;
   align-items: center;
   gap: 8px;
   grid-template-columns: 24px auto;
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 8px 16px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 14px;
+  color: white;
 `;

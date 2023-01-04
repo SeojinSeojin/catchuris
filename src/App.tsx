@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import GameInit from './components/GameInit';
 import GameOver from './components/GameOver';
