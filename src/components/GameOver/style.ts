@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #1c1c1c;
   z-index: 999;
   animation: 0.5s linear fadeIn;
   backdrop-filter: grayscale(30%);
@@ -38,61 +38,35 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const RankingWrapper = styled.div`
-  border-radius: 8px;
-  width: 300px;
-  max-height: 280px;
-  overflow: scroll;
+export const BottomButton = styled.button`
+  outline: none;
+  background-color: #2f2f2f;
+  border: 1px solid #858585;
+  border-radius: 24px;
+  padding: 13px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px;
-  padding-bottom: 12px;
-  background-color: #ff4882;
-`;
-
-export const RankingTitle = styled.div`
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  border-bottom: 1px solid white;
-`;
-
-export const RankingItem = styled.div`
-  display: grid;
-  grid-template-columns: 32px 160px auto;
-  & div:first-child {
-    text-align: center;
-  }
-  & > div:nth-child(2) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-`;
-
-export const SaveButton = styled.button`
-  outline: none;
-  border: none;
-  color: #1c1c1c;
-  background-color: white;
-  border-radius: 24px;
-  padding: 8px 16px;
-  line-height: 30px;
-  font-size: 16px;
-`;
-
-export const RefreshButton = styled.button`
-  outline: none;
-  border: none;
-  background-color: #ff4882;
-  border-radius: 24px;
-  display: grid;
   align-items: center;
   gap: 8px;
-  grid-template-columns: 24px auto;
-  padding: 8px 16px;
   font-size: 16px;
+  color: #ffffff;
   cursor: pointer;
-  color: white;
+  & div {
+    flex-grow: 1;
+  }
+  & svg {
+    width: inherit;
+  }
+`;
+
+export const StListWrapper = styled.ul`
+  background-color: #2f2f2f;
+  border-radius: 5px;
+  padding: 12px;
+  color: #b7b7b7;
+  font-size: 12px;
+  line-height: 1.5;
+  padding-inline-start: 24px;
+  list-style-type: '- ';
+  margin-block-end: 0;
+  margin-block-start: 0;
 `;

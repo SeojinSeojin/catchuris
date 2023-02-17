@@ -46,6 +46,7 @@ const Button = styled.div`
   color: white;
   font-size: 16px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 export default GameInit;

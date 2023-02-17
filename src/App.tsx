@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GameInit from './components/GameInit';
 import GameOver from './components/GameOver';
 import GameTable from './components/GameTable';
+import { GlobalStyle } from './styles/global';
 
 function App() {
   const [score, setScore] = useState(0);
@@ -13,14 +14,21 @@ function App() {
   const finishGame = () => setIsGameOver(true);
 
   return (
-    <Wrapper>
-      {isGameOver && <GameOver score={score} />}
-      {isGameStart ? (
-        <GameTable addScore={addScore} score={score} finishGame={finishGame} />
-      ) : (
-        <GameInit startGame={() => setIsGameStart(true)} />
-      )}
-    </Wrapper>
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        {isGameOver && <GameOver score={score} />}
+        {isGameStart ? (
+          <GameTable
+            addScore={addScore}
+            score={score}
+            finishGame={finishGame}
+          />
+        ) : (
+          <GameInit startGame={() => setIsGameStart(true)} />
+        )}
+      </Wrapper>
+    </>
   );
 }
 

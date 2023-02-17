@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const InputLabel = styled.div`
+  font-size: 12px;
+`;
+
 export const InputForm = styled.form`
   width: 316px;
   height: 44px;
@@ -21,6 +25,9 @@ export const InputText = styled.input`
   &:focus {
     border: 1px solid #ff4882;
   }
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const InputSubmit = styled.input`
@@ -30,8 +37,9 @@ export const InputSubmit = styled.input`
   color: white;
   outline: none;
   border: 1px solid transparent;
+  cursor: pointer;
 
-  &:hover {
-    color: rgba(252, 252, 252, 0.35);
+  &:disabled {
+    cursor: not-allowed;
   }
 `;
